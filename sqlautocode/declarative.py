@@ -12,8 +12,12 @@ from sqlalchemy.ext.declarative import declarative_base
 try:
     from sqlalchemy.ext.declarative import _deferred_relationship
 except ImportError:
-    #SA 0.5 support
-    from sqlalchemy.ext.declarative import _deferred_relation as _deferred_relationship
+    try:
+        #SA 0.5 support
+        from sqlalchemy.ext.declarative import _deferred_relation as _deferred_relationship
+    except ImportError:
+        #SA 0.8
+        from sqlalchemy.ext.declarative.clsregistry import _deferred_relationship
     
 from sqlalchemy.orm import relation, backref, class_mapper, Mapper
 
