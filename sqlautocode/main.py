@@ -62,7 +62,7 @@ def main():
     if options.generictypes:
         dialect = ''
     else:
-        dialect = 'from sqlalchemy.databases.%s import *\n' % db.name
+        dialect = 'from sqlalchemy.dialects.%s import *\n' % db.name
 
     
     header = options.z3c and constants.HEADER_Z3C or constants.HEADER
