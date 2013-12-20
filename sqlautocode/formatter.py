@@ -56,6 +56,10 @@ def column_repr(self):
         self.default = self.server_default.arg
         kwarg.append( 'server_default')
 
+    kwarg.append('autoincrement')
+    if not self.autoincrement:
+        self.autoincrement = False
+
     ks = ', '.join('%s=%r' % (k, getattr(self, k)) for k in kwarg )
 
     name = self.name
