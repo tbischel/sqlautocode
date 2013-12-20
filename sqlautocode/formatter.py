@@ -88,6 +88,13 @@ def column_repr(self):
         if self.type.collation:
             enum_args.append('collation=\'%s\'' % self.type.collation)
         coltype = 'ENUM(%s)' % ', '.join(enum_args)
+    elif isinstance(self.type, sqlalchemy.dialects.mysql.base.VARCHAR):
+        varchar_args = ['length=' + str(self.type.length)]
+        if self.type.collation:
+            varchar_args.append('collation=\'%s\'' % self.type.collation)
+        if self.type.charset:
+            varchar_args.append('charset=\'%s\'' % self.type.charset)
+        coltype = 'VARCHAR(%s)' % ", ".join(varchar_args)
     elif not hasattr(config, 'options') and config.options.generictypes:
         coltype = repr(self.type)
     elif type(self.type).__module__ == 'sqlalchemy.types':
