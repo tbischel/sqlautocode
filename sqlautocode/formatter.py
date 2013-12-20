@@ -90,6 +90,10 @@ def foreignkeyconstraint_repr(self):
             }
     return util.as_out_str(constants.FOREIGN_KEY % data)
 
+def primarykeyconstraint_repr(self):
+    data = {'columns' : ", ".join(["'%s'" % c.name for c in  self.columns])}
+    return util.as_out_str(constants.PRIMARY_KEY % data)
+
 def index_repr(index):
     cols = []
     for column in index.columns:
@@ -110,4 +114,5 @@ def monkey_patch_sa():
     sqlalchemy.schema.Table.__repr__ = table_repr
     sqlalchemy.schema.Column.__repr__ = column_repr
     sqlalchemy.schema.ForeignKeyConstraint.__repr__ = foreignkeyconstraint_repr
+    sqlalchemy.schema.PrimaryKeyConstraint.__repr__ = primarykeyconstraint_repr
     sqlalchemy.schema.Index.__repr__ = index_repr
