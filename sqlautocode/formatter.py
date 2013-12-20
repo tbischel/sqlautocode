@@ -146,9 +146,10 @@ def foreignkeyconstraint_repr(self):
     if self.ondelete:
         options['ondelete'] = self.ondelete
 
+    #TODO Don't like this hack of name and spec to strip out table... is there a better way?
     data = {'name': repr(self.name),
-            'names': repr([x.parent.name for x in self.elements]),
-            'specs': repr([x._get_colspec() for x in self.elements]),
+            'names': repr([".".join(x.parent.name.split(".")[min(1, len(x.parent.name.split("."))-2):]) for x in self.elements]),
+            'specs': repr([".".join(x._get_colspec().split(".")[min(1, len(x._get_colspec().split("."))-2):]) for x in self.elements]),
             'options': ", ".join(['%s=\'%s\'' % (k, v) for (k,v) in options.items()])
             }
     return util.as_out_str(constants.FOREIGN_KEY % data)
