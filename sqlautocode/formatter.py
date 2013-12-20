@@ -105,26 +105,8 @@ def column_repr(self):
         if self.type.charset:
             text_args.append('charset=\'%s\'' % self.type.charset)
         coltype = '%s(%s)' % (self.type.__class__.__name__, ", ".join(text_args))
-    elif not hasattr(config, 'options') and config.options.generictypes:
-        coltype = repr(self.type)
-    elif type(self.type).__module__ == 'sqlalchemy.types':
-        coltype = repr(self.type)
     else:
-        # Try to 'cast' this column type to a cross-platform type
-        # from sqlalchemy.types, dropping any database-specific type
-        # arguments.
-        for base in type(self.type).__mro__:
-            if (base.__module__ == 'sqlalchemy.types' and
-                base.__name__ in sqlalchemy.__all__):
-                coltype = _repr_coltype_as(self.type, base)
-                break
-        # FIXME: if a dialect has a non-standard type that does not
-        # derive from an ANSI type, there's no choice but to ignore
-        # generic-types and output the exact type. However, import
-        # headers have already been output and lack the required
-        # dialect import.
-        else:
-            coltype = repr(self.type)
+        coltype = repr(self.type)
 
     data = {'name': self.name,
             'type': coltype,
