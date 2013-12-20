@@ -81,6 +81,13 @@ def column_repr(self):
         if self.type.unsigned:
             float_args.append("unsigned=%s" % self.type.unsigned)
         coltype = 'FLOAT(%s)' % ", ".join(float_args)
+    elif isinstance(self.type, sqlalchemy.dialects.mysql.base.ENUM):
+        enum_args = ['\'%s\'' % str(e) for e in self.type.enums]
+        if self.type.charset:
+            enum_args.append('charset=\'%s\'' % self.type.charset)
+        if self.type.collation:
+            enum_args.append('collation=\'%s\'' % self.type.collation)
+        coltype = 'ENUM(%s)' % ', '.join(enum_args)
     elif not hasattr(config, 'options') and config.options.generictypes:
         coltype = repr(self.type)
     elif type(self.type).__module__ == 'sqlalchemy.types':
