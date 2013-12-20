@@ -80,7 +80,7 @@ TABLE = """ Table('%(name)s', metadata,
 
 COLUMN = """Column(%(name)r, %(type)s%(constraints)s%(args)s)"""
 
-FOREIGN_KEY = """ForeignKeyConstraint(%(names)s, %(specs)s, name=%(name)s)"""
+FOREIGN_KEY = """ForeignKeyConstraint(%(names)s, %(specs)s, name=%(name)s, %(options)s)"""
 
 PRIMARY_KEY = """PrimaryKeyConstraint(%(columns)s)"""
 

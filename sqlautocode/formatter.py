@@ -84,9 +84,16 @@ def column_repr(self):
     return util.as_out_str(constants.COLUMN % data)
 
 def foreignkeyconstraint_repr(self):
+    options = {}
+    if self.onupdate:
+        options['onupdate'] = self.onupdate
+    if self.ondelete:
+        options['ondelete'] = self.ondelete
+
     data = {'name': repr(self.name),
             'names': repr([x.parent.name for x in self.elements]),
-            'specs': repr([x._get_colspec() for x in self.elements])
+            'specs': repr([x._get_colspec() for x in self.elements]),
+            'options': ", ".join(['%s=\'%s\'' % (k, v) for (k,v) in options.items()])
             }
     return util.as_out_str(constants.FOREIGN_KEY % data)
 
