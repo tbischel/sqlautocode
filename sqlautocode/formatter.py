@@ -64,7 +64,15 @@ def column_repr(self):
 
     name = self.name
 
-    if not hasattr(config, 'options') and config.options.generictypes:
+    if any(isinstance(self.type, t) for t in \
+           [sqlalchemy.dialects.mysql.base.INTEGER, \
+            sqlalchemy.dialects.mysql.base.SMALLINT, \
+            sqlalchemy.dialects.mysql.base.MEDIUMINT, \
+            sqlalchemy.dialects.mysql.base.TINYINT, \
+            sqlalchemy.dialects.mysql.base.BIGINT]):
+        coltype = '%s(display_width=%s, unsigned=%s)' \
+            % (self.type.__class__.__name__, self.type.display_width, self.type.unsigned)
+    elif not hasattr(config, 'options') and config.options.generictypes:
         coltype = repr(self.type)
     elif type(self.type).__module__ == 'sqlalchemy.types':
         coltype = repr(self.type)
