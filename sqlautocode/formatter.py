@@ -19,9 +19,9 @@ def table_repr(self):
     if hasattr(self, 'kwargs'):
         opts = {}
         if 'mysql_engine' in self.kwargs:
-            opts['engine'] = str(self.kwargs['mysql_engine'])
+            opts['mysql_engine'] = str(self.kwargs['mysql_engine'])
         if 'mysql_default charset' in self.kwargs:
-            opts['charset'] = str(self.kwargs['mysql_default charset'])
+            opts['mysql_charset'] = str(self.kwargs['mysql_default charset'])
         if 'mysql_collate' in self.kwargs:
             opts['mysql_collate'] = str(self.kwargs['mysql_collate'])
         data['options'] = ", ".join(['%s=\'%s\'' % (k, v) for (k, v) in opts.items()])
