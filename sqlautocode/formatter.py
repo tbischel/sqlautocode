@@ -9,8 +9,7 @@ def table_repr(self):
         'name': self.name,
         'columns': constants.NLTAB.join([repr(cl) for cl in self.columns]),
         'constraints': constants.NLTAB.join(
-            [repr(cn) for cn in self.constraints
-            if not isinstance(cn, sqlalchemy.PrimaryKeyConstraint) and not isinstance(cn, sqlalchemy.CheckConstraint)]),
+            [repr(cn) for cn in self.constraints if not isinstance(cn, sqlalchemy.CheckConstraint)]),
         'index': '',
         'schema': self.schema != None and "schema='%s'" % self.schema or '',
         'options' : '',
