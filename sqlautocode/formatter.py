@@ -72,6 +72,15 @@ def column_repr(self):
             sqlalchemy.dialects.mysql.base.BIGINT]):
         coltype = '%s(display_width=%s, unsigned=%s)' \
             % (self.type.__class__.__name__, self.type.display_width, self.type.unsigned)
+    elif isinstance(self.type, sqlalchemy.dialects.mysql.base.FLOAT):
+        float_args = []
+        if self.type.precision:
+            float_args.append("precision=%s" % self.type.precision)
+        if self.type.scale:
+            float_args.append("scale=%s" % self.type.scale)
+        if self.type.unsigned:
+            float_args.append("unsigned=%s" % self.type.unsigned)
+        coltype = 'FLOAT(%s)' % ", ".join(float_args)
     elif not hasattr(config, 'options') and config.options.generictypes:
         coltype = repr(self.type)
     elif type(self.type).__module__ == 'sqlalchemy.types':
