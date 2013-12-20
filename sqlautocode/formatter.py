@@ -13,7 +13,19 @@ def table_repr(self):
             if not isinstance(cn, sqlalchemy.PrimaryKeyConstraint) and not isinstance(cn, sqlalchemy.CheckConstraint)]),
         'index': '',
         'schema': self.schema != None and "schema='%s'" % self.schema or '',
+        'options' : '',
         }
+
+    #Optional keyword arguments to the table
+    if hasattr(self, 'kwargs'):
+        opts = {}
+        if 'mysql_engine' in self.kwargs:
+            opts['engine'] = str(self.kwargs['mysql_engine'])
+        if 'mysql_default charset' in self.kwargs:
+            opts['charset'] = str(self.kwargs['mysql_default charset'])
+        if 'mysql_collate' in self.kwargs:
+            opts['mysql_collate'] = str(self.kwargs['mysql_collate'])
+        data['options'] = ", ".join(['%s=\'%s\'' % (k, v) for (k, v) in opts.items()])
 
     if data['constraints']:
         data['constraints'] = data['constraints'] + ','

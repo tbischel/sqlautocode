@@ -75,6 +75,7 @@ TABLE = """ Table('%(name)s', metadata,
     %(columns)s,
     %(constraints)s
     %(schema)s
+    %(options)s
     )
 """
 
