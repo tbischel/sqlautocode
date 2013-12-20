@@ -95,6 +95,16 @@ def column_repr(self):
         if self.type.charset:
             varchar_args.append('charset=\'%s\'' % self.type.charset)
         coltype = 'VARCHAR(%s)' % ", ".join(varchar_args)
+    elif any(isinstance(self.type, t) for t in \
+           [sqlalchemy.dialects.mysql.base.TEXT, \
+            sqlalchemy.dialects.mysql.base.MEDIUMTEXT, \
+            sqlalchemy.dialects.mysql.base.LONGTEXT]):
+        text_args = []
+        if self.type.collation:
+            text_args.append('collation=\'%s\'' % self.type.collation)
+        if self.type.charset:
+            text_args.append('charset=\'%s\'' % self.type.charset)
+        coltype = '%s(%s)' % (self.type.__class__.__name__, ", ".join(text_args))
     elif not hasattr(config, 'options') and config.options.generictypes:
         coltype = repr(self.type)
     elif type(self.type).__module__ == 'sqlalchemy.types':
